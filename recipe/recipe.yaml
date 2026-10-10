@@ -28,15 +28,16 @@ requirements:
   run:
     - pyjsg >=0.12.3
     - python >=${{ python_min }}
+    - rdflib
 
 tests:
   - package_contents:
       strict: true
       site_packages:
-        - shexjsg/**
+        - ShExJSG/**
         - shexjsg-${{ version }}.dist-info/**
   - python:
-      imports: shexjsg
+      imports: ShExJSG
       pip_check: true
       python_version:
         - ${{ python_min }}.*
