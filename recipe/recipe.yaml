@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: "0.9.0"
+  python_check_max: "3.14"
+
+package:
+  name: shexjsg
+  version: ${{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/s/shexjsg/shexjsg-${{ version }}.tar.gz
+  sha256: 750016fabdb5487b27e2e714145f3602cd3ac4eb0dd9b7d7751d0cde62c0d1d8
+
+build:
+  number: 0
+  noarch: python
+  script:
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --check-build-dependencies --disable-pip-version-check
+
+requirements:
+  host:
+    - hatchling
+    - pip
+    - python ${{ python_min }}.*
+    - uv-dynamic-versioning
+  run:
+    - pyjsg >=0.12.3
+    - python >=${{ python_min }}
+    - rdflib
+
+tests:
+  - package_contents:
+      strict: true
+      site_packages:
+        - ShExJSG/**
+        - shexjsg-${{ version }}.dist-info/**
+  - python:
+      imports: ShExJSG
+      pip_check: true
+      python_version:
+        - ${{ python_min }}.*
+        - ${{ python_check_max }}.*
+
+about:
+  summary: Astract Syntax Tree Definition for the ShEx 2.0 language
+  license: CC0-1.0
+  license_file: LICENSE
+  homepage: https://pypi.org/project/shexjsg
+  repository: https://github.com/linkml/shexjsg
+
+extra:
+  recipe-maintainers:
+    - bollwyvl
